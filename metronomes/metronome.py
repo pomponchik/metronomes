@@ -5,6 +5,7 @@ from time import perf_counter, sleep
 import escape
 from emptylog import EmptyLogger, LoggerProtocol
 from cantok import AbstractToken, SimpleToken
+from locklib import ContextLockProtocol
 
 from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
 
@@ -14,15 +15,15 @@ class Metronome:
         if duration <= 0:
             raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
 
-        self.duration = duration
-        self.callback = callback
-        self.suppress_exceptions = suppress_exceptions
-        self.logger = logger
-        self.token = SimpleToken(cancellation_token) if cancellation_token is not None else SimpleToken()
-        self.thread = None
-        self.started = False
-        self.stopped = False
-        self.lock = Lock()
+        self.duration: Union[int, float] = duration
+        self.callback: Callable[[], Any] = callback
+        self.suppress_exceptions: bool = suppress_exceptions
+        self.logger: LoggerProtocol = logger
+        self.token: AbstractToken = SimpleToken(cancellation_token) if cancellation_token is not None else SimpleToken()
+        self.thread: Optional[Thread] = None
+        self.started: bool = False
+        self.stopped: bool = False
+        self.lock: ContextLockProtocol = Lock()
 
     def start(self) -> None:
         with self.lock:
