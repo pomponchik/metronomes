@@ -1,0 +1,69 @@
+from typing import Callable, Union, Optional, Any
+from threading import Thread, Lock
+from time import perf_counter, sleep
+
+import escape
+from emptylog import EmptyLogger, LoggerProtocol
+from cantok import AbstractToken, SimpleToken
+
+from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
+
+
+class Metronome:
+    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None) -> None:
+        if duration <= 0:
+            raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
+
+        self.duration = duration
+        self.callback = callback
+        self.suppress_exceptions = suppress_exceptions
+        self.logger = logger
+        self.token = SimpleToken(cancellation_token) if cancellation_token is not None else SimpleToken()
+        self.thread = None
+        self.started = False
+        self.stopped = False
+        self.lock = Lock()
+
+    def start(self) -> None:
+        with self.lock:
+            if self.stopped:
+                raise RunStoppedMetronomeError()
+            if self.started:
+                raise RunAlreadyStartedMetronomeError()
+
+            self.thread = Thread(target=self.run_loop, args=())
+            self.thread.daemon = True
+            self.thread.start()
+
+            self.started = True
+            self.logger.info('The metronome has started.')
+
+    def stop(self) -> None:
+        with self.lock:
+            if not self.started:
+                raise StopNotStartedMetronomeError("You can't stop a metronome that hasn't been started yet.")
+            elif self.stopped:
+                raise StopStoppedMetronomeError("You've already stopped this metronome, it's impossible to do it twice.")
+
+            self.token.cancel()
+
+            if not self.same_thread:
+                self.thread.join()
+
+            self.stopped = True
+            self.logger.info('The metronome has stopped.')
+
+    def run_loop(self):
+        arguments = [...] if self.suppress_exceptions else []
+
+        while self.token:
+            start_time = perf_counter()
+
+            with escape(*arguments, logger=self.logger):
+                self.callback()
+
+            sleep_time = self.duration - (perf_counter() - start_time)
+            if sleep_time < 0:
+                self.logger.warning(f'The callback worked for more than the amount of time allocated for one iteration. The extra time was {sleep_time * -1} seconds.')
+            else:
+                sleep(sleep_time)
