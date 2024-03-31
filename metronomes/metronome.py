@@ -47,14 +47,12 @@ class Metronome:
                 raise StopStoppedMetronomeError("You've already stopped this metronome, it's impossible to do it twice.")
 
             self.token.cancel()
-
-            if not self.same_thread:
-                self.thread.join()
+            self.thread.join()
 
             self.stopped = True
             self.logger.info('The metronome has stopped.')
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         arguments = [...] if self.suppress_exceptions else []
 
         while self.token:
