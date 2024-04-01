@@ -26,7 +26,7 @@ class Metronome:
         self.lock: ContextLockProtocol = lock_factory()
         self.sleeping_callback: Callable[[Union[int, float]], Any] = sleeping_callback
 
-    def start(self) -> None:
+    def start(self) -> 'Metronome':
         with self.lock:
             if self.stopped:
                 raise RunStoppedMetronomeError('Metronomes are disposable, you cannot restart a stopped metronome.')
@@ -69,4 +69,5 @@ class Metronome:
                 self.sleeping_callback(sleep_time)
 
         if not token:
-            self.stop()
+            with escape(...):
+                self.stop()
