@@ -47,7 +47,7 @@ class Metronome:
                 raise StopStoppedMetronomeError("You've already stopped this metronome, it's impossible to do it twice.")
 
             self.token.cancel()
-            self.thread.join()
+            self.thread.join()  # type: ignore[union-attr]
 
             self.stopped = True
             self.logger.info('The metronome has stopped.')
