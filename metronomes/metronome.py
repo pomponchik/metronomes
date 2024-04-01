@@ -11,7 +11,7 @@ from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetrono
 
 
 class Metronome:
-    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = Lock) -> None:
+    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = Lock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep) -> None:
         if duration <= 0:
             raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
 
@@ -24,6 +24,7 @@ class Metronome:
         self.started: bool = False
         self.stopped: bool = False
         self.lock: ContextLockProtocol = lock_factory()
+        self.sleeping_callback: Callable[[Union[int, float]], Any] = sleeping_callback
 
     def start(self) -> None:
         with self.lock:
@@ -65,4 +66,4 @@ class Metronome:
             if sleep_time < 0:
                 self.logger.warning(f'The callback worked for more than the amount of time allocated for one iteration. The extra time was {sleep_time * -1} seconds.')
             else:
-                sleep(sleep_time)
+                self.sleeping_callback(sleep_time)
