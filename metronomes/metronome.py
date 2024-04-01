@@ -58,7 +58,7 @@ class Metronome:
         while self.token:
             start_time = perf_counter()
 
-            with escape(*arguments, logger=self.logger):
+            with escape(*arguments, logger=self.logger):  # type: ignore[operator]
                 self.callback()
 
             sleep_time = self.duration - (perf_counter() - start_time)
