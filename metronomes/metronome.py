@@ -67,3 +67,6 @@ class Metronome:
                 self.logger.warning(f'The callback worked for more than the amount of time allocated for one iteration. The extra time was {sleep_time * -1} seconds.')
             else:
                 self.sleeping_callback(sleep_time)
+
+        if not token:
+            self.stop()
