@@ -28,9 +28,9 @@ class Metronome:
     def start(self) -> None:
         with self.lock:
             if self.stopped:
-                raise RunStoppedMetronomeError()
+                raise RunStoppedMetronomeError('Metronomes are disposable, you cannot restart a stopped metronome.')
             if self.started:
-                raise RunAlreadyStartedMetronomeError()
+                raise RunAlreadyStartedMetronomeError('The metronome has already been launched.')
 
             self.thread = Thread(target=self.run_loop, args=())
             self.thread.daemon = True
