@@ -1,6 +1,7 @@
 from typing import Type, Callable, Union, Optional, Any
 from threading import Thread, Lock
 from time import perf_counter, sleep
+from functools import partial
 
 import escape
 from emptylog import EmptyLogger, LoggerProtocol
@@ -59,7 +60,9 @@ class Metronome:
         while self.token:
             start_time = perf_counter()
 
-            with escape(*arguments, logger=self.logger):  # type: ignore[operator]
+            self.logger.debug(f'The beginning of the execution of callback "{self.callback.__name__}".')
+
+            with escape(*arguments, logger=self.logger, success_callback=partial(self.logger.debug, f'Callback "{self.callback.__name__}" has been successfully completed.')):  # type: ignore[operator]
                 self.callback()
 
             sleep_time = self.duration - (perf_counter() - start_time)
