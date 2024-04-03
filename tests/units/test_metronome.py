@@ -90,3 +90,7 @@ def test_stop_not_started():
 
     with pytest.raises(StopNotStartedMetronomeError, match=full_match("You can't stop a metronome that hasn't been started yet.")):
         metronome.stop()
+
+
+def test_normal_logs_order():
+    pass
