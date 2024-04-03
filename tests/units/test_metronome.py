@@ -6,6 +6,8 @@ import full_match
 
 from metronomes import Metronome
 
+from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
+
 
 @pytest.mark.parametrize(
     'duration',
@@ -50,3 +52,41 @@ def test_alternation_of_sleep_and_callback():
             assert action == 1
         else:
             assert action == 2
+
+
+def test_start_started():
+    metronome = Metronome(0.0001, lambda: None)
+
+    metronome.start()
+
+    with pytest.raises(RunAlreadyStartedMetronomeError, match=full_match('The metronome has already been launched.')):
+        metronome.start()
+
+    metronome.stop()
+
+
+def test_stop_stopped():
+    metronome = Metronome(0.0001, lambda: None)
+
+    metronome.start()
+    metronome.stop()
+
+    with pytest.raises(StopStoppedMetronomeError, match=full_match("You've already stopped this metronome, it's impossible to do it twice.")):
+        metronome.stop()
+
+
+def test_start_stopped():
+    metronome = Metronome(0.0001, lambda: None)
+
+    metronome.start()
+    metronome.stop()
+
+    with pytest.raises(RunStoppedMetronomeError, match=full_match('Metronomes are disposable, you cannot restart a stopped metronome.')):
+        metronome.start()
+
+
+def test_stop_not_started():
+    metronome = Metronome(0.0001, lambda: None)
+
+    with pytest.raises(StopNotStartedMetronomeError, match=full_match("You can't stop a metronome that hasn't been started yet.")):
+        metronome.stop()
