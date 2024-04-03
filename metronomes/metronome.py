@@ -1,5 +1,5 @@
 from typing import Type, Callable, Union, Optional, Any
-from threading import Thread, Lock
+from threading import Thread, RLock
 from time import perf_counter, sleep
 from functools import partial
 
@@ -12,7 +12,7 @@ from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetrono
 
 
 class Metronome:
-    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = Lock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep) -> None:
+    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = RLock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep) -> None:
         if duration <= 0:
             raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
 
@@ -71,6 +71,5 @@ class Metronome:
             else:
                 self.sleeping_callback(sleep_time)
 
-        if not token:
-            with escape(...):
-                self.stop()
+        if not self.token:
+            self.stopped = True
