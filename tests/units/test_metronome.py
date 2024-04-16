@@ -47,6 +47,8 @@ def test_alternation_of_sleep_and_callback():
 
     metronome.stop()
 
+    print(actions)
+    
     for index, action in enumerate(actions):
         if index % 2 == 0:
             assert action == 1
