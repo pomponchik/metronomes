@@ -48,6 +48,7 @@ def test_alternation_of_sleep_and_callback():
     metronome.stop()
 
     print(actions)
+    print(len(actions))
 
     assert actions
 
