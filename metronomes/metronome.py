@@ -41,6 +41,8 @@ class Metronome:
             self.started = True
             self.logger.info('The metronome has started.')
 
+        return self
+
     def stop(self) -> None:
         with self.lock:
             if not self.started:
