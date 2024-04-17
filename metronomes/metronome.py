@@ -68,7 +68,6 @@ class Metronome:
                 self.callback()
 
             sleep_time = self.duration - (perf_counter() - start_time)
-            print('cleep time:', sleep_time > 0)
             if sleep_time < 0:
                 self.logger.warning(f'The callback worked for more than the amount of time allocated for one iteration. The extra time was {sleep_time * -1} seconds.')
             else:
