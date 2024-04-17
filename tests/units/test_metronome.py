@@ -40,7 +40,7 @@ def test_by_default_it_is_creating_a_thread():
 def test_alternation_of_sleep_and_callback():
     actions = []
 
-    metronome = Metronome(0.0001, lambda: actions.append(1), sleeping_callback=lambda x: actions.append(2))
+    metronome = Metronome(0.1, lambda: (actions.append(1), sleep(0.0001)), sleeping_callback=lambda x: actions.append(2))
     metronome.start()
 
     sleep(0.1)
