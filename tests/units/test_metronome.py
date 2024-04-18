@@ -114,7 +114,7 @@ def test_normal_logs_order():
     metronome.start()
 
     assert len(logger.data.info) == 1
-    assert logger.data.info[0].message == 'The metronome has started.'
+    assert logger.data.info[0].message == 'The metronome starts.'
 
     sleep(0.0001 * 10)
 

@@ -36,10 +36,10 @@ class Metronome:
 
             self.thread = Thread(target=self.run_loop, args=())
             self.thread.daemon = True
-            self.thread.start()
 
+            self.logger.info('The metronome starts.')
+            self.thread.start()
             self.started = True
-            self.logger.info('The metronome has started.')
 
         return self
 
