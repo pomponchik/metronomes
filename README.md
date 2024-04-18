@@ -57,7 +57,7 @@ metronome.stop()
 
 ## Why?
 
-A [metronome](https://en.wikipedia.org/wiki/Metronome) is a special device that musicians often use. It looks something like this:
+A [metronome](https://en.wikipedia.org/wiki/Metronome) is a special device that musicians often use. It looks something like this (if you are interested in how it works, I recommend watching the [video on YouTube](https://youtu.be/LvBEyyuVu60?si=NtaNSw0Xsv5ZPEKr)):
 
 ![metronome](https://raw.githubusercontent.com/pomponchik/metronomes/develop/docs/assets/image_2.gif)
 
