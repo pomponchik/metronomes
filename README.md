@@ -151,6 +151,6 @@ metronome.stop()
 Exceptions inside the function that you pass to the metronome will be:
 
 - Suppressed.
-- Logged.
+- [Logged](#logging).
 
 This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
