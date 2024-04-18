@@ -16,12 +16,13 @@ This library offers the easiest way to run regular tasks. Just give her a functi
 - 📜 Logging the start and end of each operation.
 - 🛡️ Error escaping. But not when you don't even know about the errors, but again - with detailed logging.
 - ⇆ Thread safety.
-- ❌ Support for cancellation tokens.
+- ❌ Support for [cancellation tokens](https://github.com/pomponchik/cantok).
 
 
 ## Table of contents
 
 - [**Quick start**](#quick-start)
+- [**Why?**](#why)
 
 
 ## Quick start
@@ -49,3 +50,8 @@ metronome.stop()
 # go!
 # go!
 ```
+
+
+## Why?
+
+![metronome](https://raw.githubusercontent.com/pomponchik/metronomes/develop/docs/assets/image_1.jpg)
