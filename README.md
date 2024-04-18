@@ -17,3 +17,35 @@ This library offers the easiest way to run regular tasks. Just give her a functi
 - 🛡️ Error escaping. But not when you don't even know about the errors, but again - with detailed logging.
 - ⇆ Thread safety.
 - ❌ Support for cancellation tokens.
+
+
+## Table of contents
+
+- [**Quick start**](#quick-start)
+
+
+## Quick start
+
+Install it:
+
+```bash
+pip install metronomes
+```
+
+And use:
+
+```python
+from time import sleep
+from metronomes import Metronome
+
+metronome = Metronome(0.2, lambda: print('go!'))
+
+metronome.start()
+sleep(1)
+metronome.stop()
+# go!
+# go!
+# go!
+# go!
+# go!
+```
