@@ -73,5 +73,4 @@ class Metronome:
             else:
                 self.sleeping_callback(sleep_time)
 
-        if not self.token:
-            self.stopped = True
+        self.stopped = True
