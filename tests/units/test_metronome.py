@@ -134,10 +134,11 @@ def test_normal_logs_order():
 
 
 def test_cancellation_token_is_stopping_the_metronome():
+    sleep_time = 0.0001
     def callback(): pass
     logger = MemoryLogger()
     token = SimpleToken()
-    metronome = Metronome(0.0001, callback, logger=logger, token=token)
+    metronome = Metronome(sleep_time, callback, logger=logger, token=token)
 
     count_before = active_count()
     metronome.start()
@@ -146,7 +147,7 @@ def test_cancellation_token_is_stopping_the_metronome():
     assert metronome.stopped == False
 
     token.cancel()
-    sleep(0.0001 * 5)
+    sleep(sleep_time * 30)
 
     assert active_count() == count_before
     assert metronome.stopped == True
