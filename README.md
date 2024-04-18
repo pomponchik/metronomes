@@ -154,3 +154,27 @@ Exceptions inside the function that you pass to the metronome will be:
 - [Logged](#logging).
 
 This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
+
+
+## Working with Cancellation Tokens
+
+This library is fully compatible with the [cancellation token pattern](https://cantok.readthedocs.io/en/latest/the_pattern/) and supports any token objects from the [`cantok`](https://github.com/pomponchik/cantok) library.
+
+The essence of the pattern is that you can pass an object to metronome object, from which it can find out whether the work of the metronome still needs to be continued or not. If not, the metronome stops.
+
+The token object is passed to the metronome as the `token` argument:
+
+```python
+from time import sleep
+from metronomes import Metronome
+from cantok import TimeoutToken
+
+metronome = Metronome(0.2, lambda: None, token=TimeoutToken(1))
+
+metronome.start()
+print(metronome.stopped)
+#> False
+sleep(1.5)
+print(metronome.stopped)
+#> True
+```
