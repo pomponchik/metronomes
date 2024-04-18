@@ -5,6 +5,7 @@ from threading import active_count
 import pytest
 import full_match
 from emptylog import MemoryLogger
+from cantok import SimpleToken
 
 from metronomes import Metronome
 from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
@@ -130,3 +131,22 @@ def test_normal_logs_order():
 
     assert len(logger.data.info) == 2
     assert logger.data.info[1].message == 'The metronome has stopped.'
+
+
+def test_cancellation_token_is_stopping_the_metronome():
+    def callback(): pass
+    logger = MemoryLogger()
+    token = SimpleToken()
+    metronome = Metronome(0.0001, callback, logger=logger, token=token)
+
+    count_before = active_count()
+    metronome.start()
+
+    assert active_count() == count_before + 1
+    assert metronome.stopped == False
+
+    token.cancel()
+    sleep(0.0001 * 5)
+
+    assert active_count() == count_before
+    assert metronome.stopped == True

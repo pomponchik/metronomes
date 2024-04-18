@@ -12,7 +12,7 @@ from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetrono
 
 
 class Metronome:
-    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), cancellation_token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = RLock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep) -> None:
+    def __init__(self, duration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = RLock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep) -> None:
         if duration <= 0:
             raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
 
@@ -20,7 +20,7 @@ class Metronome:
         self.callback: Callable[[], Any] = callback
         self.suppress_exceptions: bool = suppress_exceptions
         self.logger: LoggerProtocol = logger
-        self.token: AbstractToken = SimpleToken(cancellation_token) if cancellation_token is not None else SimpleToken()
+        self.token: AbstractToken = SimpleToken(token) if token is not None else SimpleToken()
         self.thread: Optional[Thread] = None
         self.started: bool = False
         self.stopped: bool = False
