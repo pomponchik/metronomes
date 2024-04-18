@@ -150,3 +150,27 @@ def test_cancellation_token_is_stopping_the_metronome():
 
     assert active_count() == count_before
     assert metronome.stopped == True
+
+
+def test_behavior_when_the_callback_time_is_bigger_than_loop_time():
+    actions = []
+    loop_time = 0.0001
+    sleep_time = loop_time * 5
+    def callback(): (sleep(sleep_time), actions.append(1))
+    logger = MemoryLogger()
+    token = SimpleToken()
+    metronome = Metronome(loop_time, callback, logger=logger, token=token, sleeping_callback=lambda x: actions.append(2))
+
+    metronome.start()
+
+    sleep(sleep_time * 10)
+
+    metronome.stop()
+
+    assert len(actions)
+    assert all(x == 1 for x in actions)
+
+    assert len(logger.data.warning)
+    for log_item in logger.data.warning:
+        assert log_item.message.startswith('The callback worked for more than the amount of time allocated for one iteration. The extra time was ')
+        assert log_item.message.endswith(' seconds.')
