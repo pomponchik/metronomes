@@ -10,3 +10,10 @@
 [![PyPI version](https://badge.fury.io/py/metronomes.svg)](https://badge.fury.io/py/metronomes)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+This library offers the easiest way to run regular tasks. Just give her a function and tell her how many seconds you need to run it, then step back and don't interfere. For all its simplicity, there are:
+
+- 📜 Logging the start and end of each operation.
+- 🛡️ Error escaping. But not when you don't even know about the errors, but again - with detailed logging.
+- ⇆ Thread safety.
+- ❌ Support for cancellation tokens.
