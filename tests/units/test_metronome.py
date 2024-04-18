@@ -174,3 +174,18 @@ def test_behavior_when_the_callback_time_is_bigger_than_loop_time():
     for log_item in logger.data.warning:
         assert log_item.message.startswith('The callback worked for more than the amount of time allocated for one iteration. The extra time was ')
         assert log_item.message.endswith(' seconds.')
+
+
+def test_exceptions_escaping():
+    sleep_time = 0.0001
+    def callback(): raise ValueError('kek')
+    logger = MemoryLogger()
+    metronome = Metronome(sleep_time, callback, logger=logger)
+
+    metronome.start()
+
+    sleep(sleep_time * 10)
+
+    metronome.stop()
+
+    assert len(logger.data.exception) > 0
