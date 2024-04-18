@@ -24,6 +24,8 @@ This library offers the easiest way to run regular tasks. Just give her a functi
 - [**Quick start**](#quick-start)
 - [**Why?**](#why)
 - [**Logging**](#logging)
+- [**Error escaping**](#error-escaping)
+- [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
 
 
 ## Quick start
@@ -109,3 +111,44 @@ metronome.stop()
 ```
 
 The events of the start and stop of the metronome will be logged with the `INFO` level, start and stop of the passed function - `DEBUG`. If the operation time of the passed function was longer than the allotted time for one iteration, you will see a `WARNING` message. And finally, if an exception is raised inside the function, it will be suppressed, and an `ERROR` level message will be recorded along with it (with the traceback saved, that is, the `exception()` method will be called for this from the logger).
+
+
+## Error escaping
+
+Exceptions inside the function that you pass to the metronome will be:
+
+- Suppressed.
+- Logged.
+
+This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
+
+```python
+# There should be some imports, logging settings, and the creation of a logger object
+
+def function():
+    return 1/0
+
+metronome = Metronome(0.2, function, logger=logger)
+
+metronome.start()
+sleep(0.4)
+metronome.stop()
+#> 2024-04-18 19:58:10,847 [INFO] The metronome starts.
+#> 2024-04-18 19:58:10,847 [DEBUG] The beginning of the execution of callback "function".
+#> 2024-04-18 19:58:10,847 [ERROR] The "ZeroDivisionError" ("division by zero") exception was suppressed inside the context.
+#> Traceback (most recent call last):
+#>   File "/project_path/metronomes/metronomes/metronome.py", line 68, in run_loop
+#>     self.callback()
+#>   File "test.py", line ?, in function
+#>     def function(): return 1/0
+#> ZeroDivisionError: division by zero
+#> 2024-04-18 19:58:11,053 [DEBUG] The beginning of the execution of callback "function".
+#> 2024-04-18 19:58:11,054 [ERROR] The "ZeroDivisionError" ("division by zero") exception was suppressed inside the context.
+#> Traceback (most recent call last):
+#>   File "/project_path/metronomes/metronomes/metronome.py", line 68, in run_loop
+#>     self.callback()
+#>   File "test.py", line ?, in function
+#>     def function(): return 1/0
+#> ZeroDivisionError: division by zero
+#> 2024-04-18 19:58:11,258 [INFO] The metronome has stopped.
+```
