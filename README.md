@@ -1,4 +1,4 @@
-# metronomes
+![logo](https://raw.githubusercontent.com/pomponchik/metronomes/develop/docs/assets/logo_1.svg)
 
 [![Downloads](https://static.pepy.tech/badge/metronomes/month)](https://pepy.tech/project/metronomes)
 [![Downloads](https://static.pepy.tech/badge/metronomes)](https://pepy.tech/project/metronomes)
