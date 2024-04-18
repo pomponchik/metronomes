@@ -23,6 +23,7 @@ This library offers the easiest way to run regular tasks. Just give her a functi
 
 - [**Quick start**](#quick-start)
 - [**Why?**](#why)
+- [**Logging**](#logging)
 
 
 ## Quick start
@@ -63,3 +64,46 @@ Its task is to produce sounds regularly and monotonously, which is very convenie
 When we write programs, we also sometimes want some action to be performed regularly. And sometimes it happens that it may take a different amount of time, but we need the next action to start on time. This is exactly the task this library solves. When you call the `start()` method on a metronome object, it starts calling the function you passed once in a certain period of time. This happens in a separate specially created thread, so you can use these function calls to orchestrate some other actions in the main thread or even in several different threads.
 
 At the same time, it may be important to you that even if in some cases the function does not work well and raises exceptions, in general the metronome continues to work, and after a certain time it will try to call this function again, and will not break at the first exception. After all, it would be strange if your real metronome went silent when you made a mistake in the rhythm that you are tapping on the drum, right? You may also want the errors that have occurred not to be lost, but to be recorded in your log. This library also provides all these amenities.
+
+
+## Logging
+
+In order for events inside the metronome to start logging, you need to pass the logger object there:
+
+```python
+import logging
+from time import sleep
+from metronomes import Metronome
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+    ]
+)
+
+logger = logging.getLogger('logger_name')
+metronome = Metronome(0.2, lambda: print('go!'), logger=logger)
+
+metronome.start()
+sleep(1)
+metronome.stop()
+#> 2024-04-18 19:38:42,910 [INFO] The metronome starts.
+#> 2024-04-18 19:38:42,910 [DEBUG] The beginning of the execution of callback "<lambda>".
+#> go!
+#> 2024-04-18 19:38:42,910 [DEBUG] Callback "<lambda>" has been successfully completed.
+#> 2024-04-18 19:38:43,115 [DEBUG] The beginning of the execution of callback "<lambda>".
+#> go!
+#> 2024-04-18 19:38:43,116 [DEBUG] Callback "<lambda>" has been successfully completed.
+#> 2024-04-18 19:38:43,321 [DEBUG] The beginning of the execution of callback "<lambda>".
+#> go!
+#> 2024-04-18 19:38:43,322 [DEBUG] Callback "<lambda>" has been successfully completed.
+#> 2024-04-18 19:38:43,523 [DEBUG] The beginning of the execution of callback "<lambda>".
+#> go!
+#> 2024-04-18 19:38:43,524 [DEBUG] Callback "<lambda>" has been successfully completed.
+#> 2024-04-18 19:38:43,727 [DEBUG] The beginning of the execution of callback "<lambda>".
+#> go!
+#> 2024-04-18 19:38:43,729 [DEBUG] Callback "<lambda>" has been successfully completed.
+#> 2024-04-18 19:38:43,933 [INFO] The metronome has stopped.
+```
