@@ -174,7 +174,7 @@ metronome = Metronome(0.2, lambda: None, token=TimeoutToken(1))
 metronome.start()
 print(metronome.stopped)
 #> False
-sleep(1.5)
+sleep(1.5)  # Here I specify a little more time than in the constructor of the token itself, since a small margin is needed for operations related to the creation of the metronome object itself
 print(metronome.stopped)
 #> True
 ```
