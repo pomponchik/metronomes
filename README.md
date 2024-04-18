@@ -110,19 +110,9 @@ metronome.stop()
 #> 2024-04-18 19:38:43,933 [INFO] The metronome has stopped.
 ```
 
-The events of the start and stop of the metronome will be logged with the `INFO` level, start and stop of the passed function - `DEBUG`. If the operation time of the passed function was longer than the allotted time for one iteration, you will see a `WARNING` message. And finally, if an exception is raised inside the function, it will be suppressed, and an `ERROR` level message will be recorded along with it (with the traceback saved, that is, the `exception()` method will be called for this from the logger).
+The events of the start and stop of the metronome will be logged with the `INFO` level, start and stop of the passed function - `DEBUG`. If the operation time of the passed function was longer than the allotted time for one iteration, you will see a `WARNING` message.
 
-
-## Error escaping
-
-Exceptions inside the function that you pass to the metronome will be:
-
-- Suppressed.
-- Logged.
-
-This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
-
-An example of a suppressed error:
+And finally, if an exception is raised inside the function, it will be suppressed, and an `ERROR` level message will be recorded along with it (with the traceback saved, that is, the `exception()` method will be called for this from the logger):
 
 ```python
 # Here should be some imports, logging settings, and the creation of a logger object
@@ -154,3 +144,13 @@ metronome.stop()
 #> ZeroDivisionError: division by zero
 #> 2024-04-18 19:58:11,258 [INFO] The metronome has stopped.
 ```
+
+
+## Error escaping
+
+Exceptions inside the function that you pass to the metronome will be:
+
+- Suppressed.
+- Logged.
+
+This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
