@@ -44,11 +44,11 @@ metronome = Metronome(0.2, lambda: print('go!'))
 metronome.start()
 sleep(1)
 metronome.stop()
-# go!
-# go!
-# go!
-# go!
-# go!
+# > go!
+# > go!
+# > go!
+# > go!
+# > go!
 ```
 
 
