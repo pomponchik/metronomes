@@ -122,8 +122,10 @@ Exceptions inside the function that you pass to the metronome will be:
 
 This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
 
+An example of a suppressed error:
+
 ```python
-# There should be some imports, logging settings, and the creation of a logger object
+# Here should be some imports, logging settings, and the creation of a logger object
 
 def function():
     return 1/0
@@ -140,7 +142,7 @@ metronome.stop()
 #>   File "/project_path/metronomes/metronomes/metronome.py", line 68, in run_loop
 #>     self.callback()
 #>   File "test.py", line ?, in function
-#>     def function(): return 1/0
+#>     return 1/0
 #> ZeroDivisionError: division by zero
 #> 2024-04-18 19:58:11,053 [DEBUG] The beginning of the execution of callback "function".
 #> 2024-04-18 19:58:11,054 [ERROR] The "ZeroDivisionError" ("division by zero") exception was suppressed inside the context.
@@ -148,7 +150,7 @@ metronome.stop()
 #>   File "/project_path/metronomes/metronomes/metronome.py", line 68, in run_loop
 #>     self.callback()
 #>   File "test.py", line ?, in function
-#>     def function(): return 1/0
+#>     return 1/0
 #> ZeroDivisionError: division by zero
 #> 2024-04-18 19:58:11,258 [INFO] The metronome has stopped.
 ```
