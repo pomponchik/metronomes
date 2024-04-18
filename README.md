@@ -107,3 +107,5 @@ metronome.stop()
 #> 2024-04-18 19:38:43,729 [DEBUG] Callback "<lambda>" has been successfully completed.
 #> 2024-04-18 19:38:43,933 [INFO] The metronome has stopped.
 ```
+
+The events of the start and stop of the metronome will be logged with the `INFO` level, start and stop of the passed function - `DEBUG`. If the operation time of the passed function was longer than the allotted time for one iteration, you will see a `WARNING` message. And finally, if an exception is raised inside the function, it will be suppressed, and an `ERROR` level message will be recorded along with it (with the traceback saved, that is, the `exception()` method will be called for this from the logger).
