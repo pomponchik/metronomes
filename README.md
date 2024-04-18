@@ -44,11 +44,11 @@ metronome = Metronome(0.2, lambda: print('go!'))
 metronome.start()
 sleep(1)
 metronome.stop()
-# > go!
-# > go!
-# > go!
-# > go!
-# > go!
+#> go!
+#> go!
+#> go!
+#> go!
+#> go!
 ```
 
 
@@ -59,3 +59,5 @@ A metronome is a special device that musicians often use. It looks something lik
 ![metronome](https://raw.githubusercontent.com/pomponchik/metronomes/develop/docs/assets/image_2.gif)
 
 Its task is to produce sounds regularly and monotonously, which is very convenient if you want to develop a sense of rhythm. Unlike a person for whom strict rhythmicity is unusual, the metronome counts down time very accurately and therefore is used as a "guide" to which other rhythmic actions that we want to do are attached, whether it's tapping on a drum or pressing keys.
+
+When we write programs, we also sometimes want some action to be performed regularly. And sometimes it happens that it may take a different amount of time, but we need the next action to start on time. This is exactly the task this library solves. When you call the `start()` method on a metronome object, it starts calling the function you passed once in a certain period of time. This happens in a separate specially created thread, so you can use these function calls to orchestrate some other actions in the main thread or even in several different threads.
