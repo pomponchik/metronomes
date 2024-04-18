@@ -1,11 +1,12 @@
 from time import sleep
+from copy import copy
 from threading import active_count
 
 import pytest
 import full_match
+from emptylog import MemoryLogger
 
 from metronomes import Metronome
-
 from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
 
 
@@ -94,5 +95,38 @@ def test_stop_not_started():
         metronome.stop()
 
 
+def test_start_returns_the_same_metronome():
+    metronome = Metronome(0.0001, lambda: None)
+
+    assert metronome.start() is metronome
+
+    metronome.stop()
+
+
 def test_normal_logs_order():
-    pass
+    def callback(): pass
+    logger = MemoryLogger()
+    metronome = Metronome(0.0001, callback, logger=logger)
+
+    assert len(logger.data) == 0
+
+    metronome.start()
+
+    assert len(logger.data.info) == 1
+    assert logger.data.info[0].message == 'The metronome has started.'
+
+    sleep(0.0001 * 10)
+
+    assert len(logger.data) >= 3
+    assert len(logger.data.debug) >= 2
+
+    for index, log_item in enumerate(copy(logger.data.debug)):
+        if index % 2 == 0:
+            assert log_item.message == 'The beginning of the execution of callback "callback".'
+        else:
+            assert log_item.message == 'Callback "callback" has been successfully completed.'
+
+    metronome.stop()
+
+    assert len(logger.data.info) == 2
+    assert logger.data.info[1].message == 'The metronome has stopped.'
