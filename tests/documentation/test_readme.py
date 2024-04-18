@@ -10,5 +10,6 @@ def test_quick_start():
     sleep(0.1)
     metronome.stop()
 
+    print(actions)
     assert len(actions) == 5
     assert all(x == 1 for x in actions)
