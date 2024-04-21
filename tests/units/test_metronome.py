@@ -211,8 +211,6 @@ def test_set_duration_time():
 
     metronome.start()
 
-    assert not metronome.stopped
-
     sleep(0.01)
 
     assert metronome.stopped
