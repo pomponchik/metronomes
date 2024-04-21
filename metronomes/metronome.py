@@ -54,7 +54,7 @@ class Metronome:
             if not self.started:
                 raise StopNotStartedMetronomeError("You can't stop a metronome that hasn't been started yet.")
             elif self.stopped:
-                raise StopStoppedMetronomeError("You've already stopped this metronome, it's impossible to do it twice.")
+                raise StopStoppedMetronomeError("You've already stopped this metronome (or it was canceled on its own, for example, when the limit expired), it's impossible to do it twice.")
 
             self.token.cancel()
             self.thread.join()  # type: ignore[union-attr]

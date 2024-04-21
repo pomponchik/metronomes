@@ -26,6 +26,7 @@ This library offers the easiest way to run regular tasks. Just give it a functio
 - [**Logging**](#logging)
 - [**Error escaping**](#error-escaping)
 - [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
+- [**Limitations**](#limitations)
 
 
 ## Quick start
@@ -177,4 +178,22 @@ print(metronome.stopped)
 sleep(1.5)  # Here I specify a little more time than in the constructor of the token itself, since a small margin is needed for operations related to the creation of the metronome object itself.
 print(metronome.stopped)
 #> True
+```
+
+
+## Limitations
+
+You can limit the total running time of the metronome by setting the `duration` value (in seconds):
+
+```python
+from time import sleep
+from metronomes import Metronome
+
+metronome = Metronome(0.2, lambda: print('go!'), duration=0.6)
+
+metronome.start()
+sleep(1)
+#> go!
+#> go!
+#> go!
 ```
