@@ -197,3 +197,7 @@ def test_exceptions_escaping():
 def test_iteration_more_than_duration():
     with pytest.raises(ValueError, match=full_match('The time of one iteration cannot exceed the running time of the metronome as a whole.')):
         Metronome(5, lambda: None, duration=1)
+
+def test_duration_less_than_zero():
+    with pytest.raises(ValueError, match=full_match('The total duration of the metronome operation cannot be less than zero.')):
+        Metronome(0.5, lambda: None, duration=-1)
