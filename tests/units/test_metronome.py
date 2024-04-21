@@ -75,7 +75,7 @@ def test_stop_stopped():
     metronome.start()
     metronome.stop()
 
-    with pytest.raises(StopStoppedMetronomeError, match=full_match("You've already stopped this metronome, it's impossible to do it twice.")):
+    with pytest.raises(StopStoppedMetronomeError, match=full_match("You've already stopped this metronome (or it was canceled on its own, for example, when the limit expired), it's impossible to do it twice.")):
         metronome.stop()
 
 
