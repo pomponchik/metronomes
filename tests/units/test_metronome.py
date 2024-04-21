@@ -207,7 +207,11 @@ def test_duration_less_than_zero():
 def test_set_duration_time():
     metronome = Metronome(0.00001, lambda: None, duration=0.001)
 
+    assert not metronome.stopped
+
     metronome.start()
+
+    assert not metronome.stopped
 
     sleep(0.01)
 
