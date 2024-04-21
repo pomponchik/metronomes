@@ -202,3 +202,13 @@ def test_iteration_more_than_duration():
 def test_duration_less_than_zero():
     with pytest.raises(ValueError, match=full_match('The total duration of the metronome operation cannot be less than zero.')):
         Metronome(0.5, lambda: None, duration=-1)
+
+
+def test_set_duration_time():
+    metronome = Metronome(0.00001, lambda: None, duration=0.001)
+
+    metronome.start()
+
+    sleep(0.01)
+
+    assert metronome.stopped
