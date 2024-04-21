@@ -12,7 +12,7 @@ from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetrono
 
 
 @pytest.mark.parametrize(
-    'duration',
+    'iteration',
     [
         0,
         0.0,
@@ -21,9 +21,9 @@ from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetrono
         -1.0,
     ],
 )
-def test_duration_zero_or_less(duration):
+def test_iteration_time_zero_or_less(iteration):
     with pytest.raises(ValueError, match=full_match('The duration of the metronome iteration (tick-tock time) must be greater than zero.')):
-        Metronome(duration, lambda: None)
+        Metronome(iteration, lambda: None)
 
 
 def test_by_default_it_is_creating_a_thread():
@@ -75,7 +75,7 @@ def test_stop_stopped():
     metronome.start()
     metronome.stop()
 
-    with pytest.raises(StopStoppedMetronomeError, match=full_match("You've already stopped this metronome, it's impossible to do it twice.")):
+    with pytest.raises(StopStoppedMetronomeError, match=full_match("You've already stopped this metronome (or it was canceled on its own, for example, when the limit expired), it's impossible to do it twice.")):
         metronome.stop()
 
 
@@ -173,6 +173,7 @@ def test_behavior_when_the_callback_time_is_bigger_than_loop_time():
     assert all(x == 1 for x in actions)
 
     assert len(logger.data.warning)
+
     for log_item in logger.data.warning:
         assert log_item.message.startswith('The callback worked for more than the amount of time allocated for one iteration. The extra time was ')
         assert log_item.message.endswith(' seconds.')
@@ -191,3 +192,24 @@ def test_exceptions_escaping():
     metronome.stop()
 
     assert len(logger.data.exception) > 0
+
+
+def test_iteration_more_than_duration():
+    with pytest.raises(ValueError, match=full_match('The time of one iteration cannot exceed the running time of the metronome as a whole.')):
+        Metronome(5, lambda: None, duration=1)
+
+
+def test_duration_less_than_zero():
+    with pytest.raises(ValueError, match=full_match('The total duration of the metronome operation cannot be less than zero.')):
+        Metronome(0.5, lambda: None, duration=-1)
+
+
+def test_set_duration_time():
+    metronome = Metronome(0.00001, lambda: None, duration=0.001)
+
+    assert not metronome.stopped
+
+    metronome.start()
+    sleep(0.1)
+
+    assert metronome.stopped

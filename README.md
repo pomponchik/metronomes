@@ -11,7 +11,7 @@
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-This library offers the easiest way to run regular tasks. Just give her a function and tell her how many seconds you need to run it, then step back and don't interfere. For all its simplicity, there are:
+This library offers the easiest way to run regular tasks. Just give it a function and tell it how many seconds you need to run it, then step back and don't interfere. For all its simplicity, there are:
 
 - 📜 Logging the start and end of each operation.
 - 🛡️ Error escaping. But not when you don't even know about the errors, but again - with detailed logging.
@@ -26,6 +26,7 @@ This library offers the easiest way to run regular tasks. Just give her a functi
 - [**Logging**](#logging)
 - [**Error escaping**](#error-escaping)
 - [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
+- [**Limitations**](#limitations)
 
 
 ## Quick start
@@ -151,7 +152,7 @@ metronome.stop()
 Exceptions inside the function that you pass to the metronome will be:
 
 - Suppressed.
-- [Logged](#logging).
+- [Logged](#logging) (if you pass the logger object).
 
 This applies to all the usual exceptions that are expected in normal code. For more information about the types of exceptions that are suppressed by default, read the documentation for the [`escaping`](https://github.com/pomponchik/escaping) library that is used for this.
 
@@ -177,4 +178,22 @@ print(metronome.stopped)
 sleep(1.5)  # Here I specify a little more time than in the constructor of the token itself, since a small margin is needed for operations related to the creation of the metronome object itself.
 print(metronome.stopped)
 #> True
+```
+
+
+## Limitations
+
+You can limit the total running time of the metronome by setting the `duration` value (in seconds):
+
+```python
+from time import sleep
+from metronomes import Metronome
+
+metronome = Metronome(0.2, lambda: print('go!'), duration=0.6)
+
+metronome.start()
+sleep(1)
+#> go!
+#> go!
+#> go!
 ```
