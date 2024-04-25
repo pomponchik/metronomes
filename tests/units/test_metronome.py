@@ -213,3 +213,16 @@ def test_set_duration_time():
     sleep(0.1)
 
     assert metronome.stopped
+
+
+def test_context_manager_basics():
+    actions = []
+    metronome = Metronome(0.00001, lambda: actions.append(1))
+
+    assert not metronome.stopped
+    
+    with metronome:
+        sleep(0.1)
+
+    assert actions
+    assert metronome.stopped
