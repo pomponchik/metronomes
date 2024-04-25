@@ -220,9 +220,55 @@ def test_context_manager_basics():
     metronome = Metronome(0.00001, lambda: actions.append(1))
 
     assert not metronome.stopped
-    
+
     with metronome:
         sleep(0.1)
 
     assert actions
     assert metronome.stopped
+
+
+def test_context_manager_with_started_metronome():
+    actions = []
+    metronome = Metronome(0.00001, lambda: actions.append(1)).start()
+
+    assert not metronome.stopped
+    assert metronome.started
+
+    with metronome:
+        sleep(0.1)
+
+    assert actions
+    assert metronome.stopped
+
+
+def test_stop_metronome_into_context_manager():
+    actions = []
+    metronome = Metronome(0.00001, lambda: actions.append(1))
+
+    assert not metronome.stopped
+
+    with metronome:
+        sleep(0.1)
+        metronome.stop()
+
+    assert actions
+    assert metronome.stopped
+
+
+def test_raise_into_context_manager():
+    metronome = Metronome(0.00001, lambda: None)
+
+    with pytest.raises(ValueError, match=full_match('text')):
+        with metronome:
+            raise ValueError('text')
+
+
+def test_numbers_of_thread_into_context_manager():
+    count_before = active_count()
+    metronome = Metronome(0.00001, lambda: None)
+
+    assert count_before == active_count()
+
+    with metronome:
+        assert count_before + 1 == active_count()
