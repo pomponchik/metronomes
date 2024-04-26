@@ -1,7 +1,14 @@
 from typing import Type, Callable, Union, Optional, Any
+
+try:
+    from typing import Literal  # type: ignore[attr-defined]
+except ImportError:  # pragma: no cover
+    from typing_extensions import Literal  # type: ignore[assignment, unused-ignore]
+
 from threading import Thread, RLock
 from time import perf_counter, sleep
 from functools import partial
+from types import TracebackType
 
 import escape
 from emptylog import EmptyLogger, LoggerProtocol
@@ -32,6 +39,18 @@ class Metronome:
         self.stopped: bool = False
         self.lock: ContextLockProtocol = lock_factory()
         self.sleeping_callback: Callable[[Union[int, float]], Any] = sleeping_callback
+
+    def __enter__(self) -> 'Metronome':
+        with self.lock:
+            with escape(RunAlreadyStartedMetronomeError):  # type: ignore[operator]
+                self.start()
+            return self
+
+    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[True]:
+        with self.lock:
+            with escape(StopStoppedMetronomeError):  # type: ignore[operator]
+                self.stop()
+        return False
 
     def start(self) -> 'Metronome':
         with self.lock:

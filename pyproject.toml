@@ -4,7 +4,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'metronomes'
-version = '0.0.2'
+version = '0.0.3'
 authors = [
   { name='Evgeniy Blinov', email='zheni-b@yandex.ru' },
 ]
@@ -16,6 +16,7 @@ dependencies = [
     'cantok>=0.0.22',
     'escaping>=0.0.11',
     'locklib>=0.0.15',
+    'typing_extensions ; python_version < "3.8"',
 ]
 classifiers = [
     'Operating System :: OS Independent',
