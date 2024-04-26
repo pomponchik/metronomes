@@ -264,7 +264,7 @@ def test_raise_into_context_manager():
             raise ValueError('text')
 
 
-def test_numbers_of_thread_into_context_manager():
+def test_numbers_of_threads_into_context_manager():
     count_before = active_count()
     metronome = Metronome(0.00001, lambda: None)
 
