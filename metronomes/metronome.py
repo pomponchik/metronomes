@@ -36,7 +36,7 @@ class Metronome:
 
     def __enter__(self) -> 'Metronome':
         with self.lock:
-            with escape(RunAlreadyStartedMetronomeError):
+            with escape(RunAlreadyStartedMetronomeError):  # type: ignore[operator]
                 self.start()
             return self
 
