@@ -27,6 +27,7 @@ This library offers the easiest way to run regular tasks. Just give it a functio
 - [**Error escaping**](#error-escaping)
 - [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
 - [**Limitations**](#limitations)
+- [**Use it as a context manager**](#use-it-as-a-context-manager)
 
 
 ## Quick start
@@ -197,3 +198,23 @@ sleep(1)
 #> go!
 #> go!
 ```
+
+
+## Use it as a context manager
+
+We recommend using a metronome exclusively in the context manager mode, without "manual" start and stop:
+
+```python
+from time import sleep
+from metronomes import Metronome
+
+with Metronome(0.2, lambda: print('go!')):
+    sleep(1)
+#> go!
+#> go!
+#> go!
+#> go!
+#> go!
+```
+
+In this case, it is guaranteed that the metronome will be completed correctly after the end of the code block and will not remain "hanging" in a separate thread. Even if an error occurs in the block.
