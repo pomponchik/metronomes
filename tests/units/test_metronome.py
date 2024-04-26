@@ -272,3 +272,5 @@ def test_numbers_of_threads_into_context_manager():
 
     with metronome:
         assert count_before + 1 == active_count()
+
+    assert count_before == active_count()
