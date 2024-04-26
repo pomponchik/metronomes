@@ -1,4 +1,4 @@
-from typing import Type, Callable, Union, Optional, Any
+from typing import Type, Callable, Union, Optional, Any, Literal
 from threading import Thread, RLock
 from time import perf_counter, sleep
 from functools import partial
@@ -40,7 +40,7 @@ class Metronome:
                 self.start()
             return self
 
-    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> bool:
+    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[True]:
         with self.lock:
             with escape(StopStoppedMetronomeError):  # type: ignore[operator]
                 self.stop()
