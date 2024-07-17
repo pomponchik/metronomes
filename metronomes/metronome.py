@@ -12,14 +12,14 @@ from types import TracebackType
 
 import escape
 from emptylog import EmptyLogger, LoggerProtocol
-from cantok import AbstractToken, SimpleToken, TimeoutToken
+from cantok import AbstractToken, SimpleToken, DefaultToken, TimeoutToken
 from locklib import ContextLockProtocol
 
 from metronomes.errors import RunStoppedMetronomeError, RunAlreadyStartedMetronomeError, StopNotStartedMetronomeError, StopStoppedMetronomeError
 
 
 class Metronome:
-    def __init__(self, iteration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), token: Optional[AbstractToken] = None, lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = RLock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep, duration: Optional[Union[int, float]] = None) -> None:
+    def __init__(self, iteration: Union[int, float], callback: Callable[[], Any], suppress_exceptions: bool = True, logger: LoggerProtocol = EmptyLogger(), token: AbstractToken = DefaultToken(), lock_factory: Union[Type[ContextLockProtocol], Callable[[], ContextLockProtocol]] = RLock, sleeping_callback: Callable[[Union[int, float]], Any] = sleep, duration: Optional[Union[int, float]] = None) -> None:
         if iteration <= 0:
             raise ValueError('The duration of the metronome iteration (tick-tock time) must be greater than zero.')
 
@@ -27,7 +27,7 @@ class Metronome:
         self.callback: Callable[[], Any] = callback
         self.suppress_exceptions: bool = suppress_exceptions
         self.logger: LoggerProtocol = logger
-        self.token: AbstractToken = SimpleToken(token) if token is not None else SimpleToken()
+        self.token: AbstractToken = SimpleToken(token)
         if duration is not None:
             if duration < 0:
                 raise ValueError('The total duration of the metronome operation cannot be less than zero.')
