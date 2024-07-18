@@ -72,6 +72,20 @@ At the same time, it may be important to you that even if in some cases the func
 
 ## Metronomes are disposable
 
+The metronome object from this library cannot be used twice. If you started it once and then stopped it, you can't do it again:
+
+```python
+metronome = Metronome(0.2, lambda: print('go!'))
+
+metronome.start()
+sleep(0.2)
+metronome.stop()
+#> go!
+metronome.start()
+#> ...
+#> metronomes.errors.RunStoppedMetronomeError: Metronomes are disposable, you cannot restart a stopped metronome.
+```
+
 
 ## Logging
 
