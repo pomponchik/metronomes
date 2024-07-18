@@ -23,6 +23,7 @@ This library offers the easiest way to run regular tasks. Just give it a functio
 
 - [**Quick start**](#quick-start)
 - [**Why?**](#why)
+- [**Metronomes are disposable**](#metronomes-are-disposable)
 - [**Logging**](#logging)
 - [**Error escaping**](#error-escaping)
 - [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
@@ -68,6 +69,8 @@ Its task is to produce sounds regularly and monotonously, which is very convenie
 When we write programs, we also sometimes want some action to be performed regularly. And sometimes it happens that it may take a different amount of time, but we need the next action to start on time. This is exactly the task this library solves. When you call the `start()` method on a metronome object, it starts calling the function you passed once in a certain period of time. This happens in a separate specially created thread, so you can use these function calls to orchestrate some other actions in the main thread or even in several different threads.
 
 At the same time, it may be important to you that even if in some cases the function does not work well and raises exceptions, in general the metronome continues to work, and after a certain time it will try to call this function again, and will not break at the first exception. After all, it would be strange if your real metronome went silent when you made a mistake in the rhythm that you are tapping on the drum, right? You may also want the errors that have occurred not to be lost, but to be recorded in your log. This library also provides all these amenities.
+
+## Metronomes are disposable
 
 
 ## Logging
