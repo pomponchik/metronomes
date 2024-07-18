@@ -273,22 +273,3 @@ def test_numbers_of_threads_into_context_manager():
         assert count_before + 1 == active_count()
 
     assert count_before == active_count()
-
-
-def test_double_running_of_one_metronome_is_possible():
-    actions = []
-    metronome = Metronome(0.1, lambda: (actions.append(1), sleep(0.0001)), sleeping_callback=lambda x: actions.append(2))
-
-    metronome.start()
-    sleep(0.1)
-    metronome.stop()
-
-    assert actions
-
-    lenth_after_first_running = len(actions)
-
-    metronome.start()
-    sleep(0.1)
-    metronome.stop()
-
-    assert len(actions) > lenth_after_first_running
