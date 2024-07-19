@@ -236,6 +236,14 @@ print(metronome.stopped)
 #> True
 ```
 
+You can also pass a token when calling the `start()` method:
+
+```python
+metronome.start(token=TimeoutToken(1))
+```
+
+If you pass cancellation tokens both during metronome initialization and in the `start()` method, their limitations will be summed up.
+
 
 ## Limitations
 
