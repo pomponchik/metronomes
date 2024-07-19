@@ -110,7 +110,7 @@ metronome = Metronome(0.2, lambda: print('go!'), logger=logger)
 metronome.start()
 sleep(1)
 metronome.stop()
-#> 2024-04-18 19:38:42,910 [INFO] The metronome starts.
+#> 2024-04-18 19:38:42,910 [INFO] The metronome starts...
 #> 2024-04-18 19:38:42,910 [DEBUG] The beginning of the execution of callback "<lambda>".
 #> go!
 #> 2024-04-18 19:38:42,910 [DEBUG] Callback "<lambda>" has been successfully completed.
@@ -144,7 +144,7 @@ metronome = Metronome(0.2, function, logger=logger)
 metronome.start()
 sleep(0.4)
 metronome.stop()
-#> 2024-04-18 19:58:10,847 [INFO] The metronome starts.
+#> 2024-04-18 19:58:10,847 [INFO] The metronome starts...
 #> 2024-04-18 19:58:10,847 [DEBUG] The beginning of the execution of callback "function".
 #> 2024-04-18 19:58:10,847 [ERROR] The "ZeroDivisionError" ("division by zero") exception was suppressed inside the context.
 #> Traceback (most recent call last):

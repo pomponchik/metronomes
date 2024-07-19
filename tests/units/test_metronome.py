@@ -114,7 +114,7 @@ def test_normal_logs_order():
     metronome.start()
 
     assert len(logger.data.info) == 1
-    assert logger.data.info[0].message == 'The metronome starts.'
+    assert logger.data.info[0].message == 'The metronome starts...'
 
     sleep(0.0001 * 10)
 
@@ -193,7 +193,7 @@ def test_start_with_cancelled_token(first_token, second_token):
     assert not actions
     assert len(logger.data) == 2
     assert len(logger.data.info) == 2
-    assert logger.data.info[0].message == 'The metronome starts.'
+    assert logger.data.info[0].message == 'The metronome starts...'
     assert logger.data.info[1].message == 'The metronome did not start working because the cancellation token was canceled right at the start.'
 
 
