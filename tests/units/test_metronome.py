@@ -114,7 +114,7 @@ def test_normal_logs_order():
     metronome.start()
 
     assert len(logger.data.info) == 1
-    assert logger.data.info[0].message == 'The metronome starts.'
+    assert logger.data.info[0].message == 'The metronome starts...'
 
     sleep(0.0001 * 10)
 
@@ -147,11 +147,54 @@ def test_cancellation_token_is_stopping_the_metronome():
     assert metronome.stopped == False
 
     token.cancel()
-    sleep(sleep_time * 100)
+    sleep(sleep_time * 200)
 
-    print(active_count(), count_before)
     assert active_count() == count_before
     assert metronome.stopped == True
+
+
+def test_cancellation_token_is_stopping_the_metronome_in_start_method():
+    sleep_time = 0.0001
+    def callback(): pass
+    logger = MemoryLogger()
+    token = SimpleToken()
+    metronome = Metronome(sleep_time, callback, logger=logger)
+
+    count_before = active_count()
+    metronome.start(token=token)
+
+    assert active_count() == count_before + 1
+    assert metronome.stopped == False
+
+    token.cancel()
+    sleep(sleep_time * 200)
+
+    assert active_count() == count_before
+    assert metronome.stopped == True
+
+
+@pytest.mark.parametrize(
+    ['first_token', 'second_token'],
+    [
+        (SimpleToken(), SimpleToken(cancelled=True)),
+        (SimpleToken(cancelled=True), SimpleToken()),
+        (SimpleToken(cancelled=True), SimpleToken(cancelled=True)),
+    ],
+)
+def test_start_with_cancelled_token(first_token, second_token):
+    actions = []
+    logger = MemoryLogger()
+    metronome = Metronome(0.0001, lambda: actions.append(True), token=first_token, logger=logger)
+
+    metronome.start(token=second_token)
+    sleep(0.0001)
+
+    assert metronome.stopped
+    assert not actions
+    assert len(logger.data) == 2
+    assert len(logger.data.info) == 2
+    assert logger.data.info[0].message == 'The metronome starts...'
+    assert logger.data.info[1].message == 'The metronome did not start working because the cancellation token was canceled right at the start.'
 
 
 def test_behavior_when_the_callback_time_is_bigger_than_loop_time():

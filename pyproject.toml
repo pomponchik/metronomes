@@ -4,7 +4,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'metronomes'
-version = '0.0.3'
+version = '0.0.4'
 authors = [
   { name='Evgeniy Blinov', email='zheni-b@yandex.ru' },
 ]
@@ -12,9 +12,9 @@ description = 'Endless tick-tock generators'
 readme = 'README.md'
 requires-python = '>=3.7'
 dependencies = [
-    'emptylog>=0.0.4',
-    'cantok>=0.0.22',
-    'escaping>=0.0.11',
+    'emptylog>=0.0.7',
+    'cantok>=0.0.23',
+    'escaping>=0.0.13',
     'locklib>=0.0.15',
     'typing_extensions ; python_version < "3.8"',
 ]
