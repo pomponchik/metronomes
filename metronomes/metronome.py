@@ -52,14 +52,14 @@ class Metronome:
                 self.stop()
         return False
 
-    def start(self) -> 'Metronome':
+    def start(self, token: AbstractToken = DefaultToken()) -> 'Metronome':
         with self.lock:
             if self.stopped:
                 raise RunStoppedMetronomeError('Metronomes are disposable, you cannot restart a stopped metronome.')
             if self.started:
                 raise RunAlreadyStartedMetronomeError('The metronome has already been launched.')
 
-            self.thread = Thread(target=self.run_loop, args=())
+            self.thread = Thread(target=self.run_loop, args=(self.token + token,))
             self.thread.daemon = True
 
             self.logger.info('The metronome starts.')
@@ -81,10 +81,10 @@ class Metronome:
             self.stopped = True
             self.logger.info('The metronome has stopped.')
 
-    def run_loop(self) -> None:
+    def run_loop(self, token: AbstractToken) -> None:
         arguments = [...] if self.suppress_exceptions else []
 
-        while self.token:
+        while token:
             start_time = perf_counter()
 
             self.logger.debug(f'The beginning of the execution of callback "{self.callback.__name__}".')
