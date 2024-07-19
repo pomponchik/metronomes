@@ -84,6 +84,9 @@ class Metronome:
     def run_loop(self, token: AbstractToken) -> None:
         arguments = [...] if self.suppress_exceptions else []
 
+        if not token:
+            self.logger.info('The metronome did not start working because the cancellation token was canceled right at the start.')
+
         while token:
             start_time = perf_counter()
 
