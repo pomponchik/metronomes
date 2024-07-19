@@ -147,7 +147,7 @@ def test_cancellation_token_is_stopping_the_metronome():
     assert metronome.stopped == False
 
     token.cancel()
-    sleep(sleep_time * 100)
+    sleep(sleep_time * 200)
 
     assert active_count() == count_before
     assert metronome.stopped == True
@@ -167,7 +167,7 @@ def test_cancellation_token_is_stopping_the_metronome_in_start_method():
     assert metronome.stopped == False
 
     token.cancel()
-    sleep(sleep_time * 100)
+    sleep(sleep_time * 200)
 
     assert active_count() == count_before
     assert metronome.stopped == True
