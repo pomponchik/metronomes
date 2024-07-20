@@ -73,7 +73,7 @@ At the same time, it may be important to you that even if in some cases the func
 
 ## Basic usage
 
-The metronome object has 2 main methods: `start()` and `stop()`. Calling the `start()` method starts an additional thread, inside which the passed function starts running regularly in the loop. At the same time, the main stream can continue and, when it's necessary, stop the metronome calling the `stop()` method. Often, a metronome can be used for background notifications that are called during the execution of other code:
+The metronome object has 2 main methods: `start()` and `stop()`. Calling the `start()` method starts an additional thread, inside which the passed function starts running regularly in the loop. At the same time, the main thread can continue and, when it's necessary, stop the metronome calling the `stop()` method. Often, a metronome can be used for background notifications that are called during the execution of other code:
 
 ```python
 from metronomes import Metronome
