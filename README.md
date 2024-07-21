@@ -57,6 +57,8 @@ metronome.stop()
 #> go!
 ```
 
+You can also quickly try out this and other packages without having to install using [instld](https://github.com/pomponchik/instld).
+
 
 ## Why?
 
