@@ -1,4 +1,3 @@
----
 name: Documentation fix
 about: To add, correct or remove something from the documentation
 title: ''
@@ -38,4 +37,3 @@ body:
       render: shell
     validations:
       required: true
----
