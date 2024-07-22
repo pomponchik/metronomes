@@ -3,7 +3,7 @@ name: Documentation fix
 about: Add something to the documentation, delete it, or change it
 title: ''
 labels: documentation
-assignees: ''
+assignees: pomponchik
 ---
 
 ## It's cool that you're here!
