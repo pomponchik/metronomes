@@ -4,11 +4,6 @@ title: ''
 labels: documentation
 assignees: ''
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## It's cool that you're here!
-        Documentation is an important part of the project, we strive to make it high-quality and keep it up to date. Please describe your offer by filling out the form below.
   - type: dropdown
     id: action
     attributes:
