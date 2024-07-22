@@ -10,6 +10,7 @@ assignees: ''
 
 Documentation is an important part of the project, we strive to make it high-quality and keep it up to date. Please adjust this template by outlining your proposal.
 
+
 ## Type of action
 
 What do you want to do: remove something, add it, or change it?
