@@ -1,26 +1,22 @@
----
-name: Documentation fix
-about: Add something to the documentation, delete it, or change it
-title: ''
-labels: documentation
-assignees: pomponchik
----
+name: Privileged
+description: You are @tiangolo or he asked you directly to create an issue here. If not, check the other options. 👇
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in FastAPI! 🚀
 
-## It's cool that you're here!
-
-Documentation is an important part of the project, we strive to make it high-quality and keep it up to date. Please adjust this template by outlining your proposal.
-
-
-## Type of action
-
-What do you want to do: remove something, add it, or change it?
-
-
-## Where?
-
-Specify which part of the documentation you want to make a change to? For example, the name of an existing documentation section or the line number in a file `README.md`.
-
-
-## The essence
-
-Please describe the essence of the proposed change
+        If you are not @tiangolo or he didn't ask you directly to create an issue here, please start the conversation in a [Question in GitHub Discussions](https://github.com/tiangolo/fastapi/discussions/categories/questions) instead.
+  - type: checkboxes
+    id: privileged
+    attributes:
+      label: Privileged issue
+      description: Confirm that you are allowed to create an issue here.
+      options:
+        - label: I'm @tiangolo or he asked me directly to create an issue here.
+          required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: Issue Content
+      description: Add the content of the issue here.
