@@ -1,6 +1,6 @@
 ---
 name: Documentation fix
-about: To add, correct or remove something from the documentation
+about: Add something to the documentation, delete it, or change it
 title: ''
 labels: documentation
 assignees: ''
