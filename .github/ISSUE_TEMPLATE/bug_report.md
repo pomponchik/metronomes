@@ -7,12 +7,12 @@ assignees: ''
 
 ---
 
-## Description
+## Short description
 
 Replace this text with a short description of the error and the behavior that you expected to see instead.
 
 
-## Describe the bug
+## Describe the bug in detail
 
 Please add this test in such a way that it reproduces the bug you found and does not pass:
 
