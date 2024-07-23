@@ -29,11 +29,7 @@ class Metronome:
         self.logger: LoggerProtocol = logger
         self.token: AbstractToken = SimpleToken(token)
         if duration is not None:
-            if duration < 0:
-                raise ValueError('The total duration of the metronome operation cannot be less than zero.')
-            elif iteration > duration:
-                raise ValueError('The time of one iteration cannot exceed the running time of the metronome as a whole.')
-            self.token = self.token + TimeoutToken(duration)
+            self.token += self.create_duration_token(duration)
         self.thread: Optional[Thread] = None
         self.started: bool = False
         self.stopped: bool = False
@@ -52,12 +48,15 @@ class Metronome:
                 self.stop()
         return False
 
-    def start(self, token: AbstractToken = DefaultToken()) -> 'Metronome':
+    def start(self, token: AbstractToken = DefaultToken(), duration: Optional[Union[int, float]] = None) -> 'Metronome':
         with self.lock:
             if self.stopped:
                 raise RunStoppedMetronomeError('Metronomes are disposable, you cannot restart a stopped metronome.')
             if self.started:
                 raise RunAlreadyStartedMetronomeError('The metronome has already been launched.')
+
+            if duration is not None:
+                token += self.create_duration_token(duration)
 
             self.thread = Thread(target=self.run_loop, args=(self.token + token,))
             self.thread.daemon = True
@@ -102,3 +101,11 @@ class Metronome:
                 self.sleeping_callback(sleep_time)
 
         self.stopped = True
+
+    def create_duration_token(self, duration: Union[int, float]) -> TimeoutToken:
+        if duration < 0:
+            raise ValueError('The total duration of the metronome operation cannot be less than zero.')
+        elif self.iteration > duration:
+            raise ValueError('The time of one iteration cannot exceed the running time of the metronome as a whole.')
+
+        return TimeoutToken(duration)
