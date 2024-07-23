@@ -28,7 +28,7 @@ This library offers the easiest way to run regular tasks. Just give it a functio
 - [**Logging**](#logging)
 - [**Error escaping**](#error-escaping)
 - [**Working with Cancellation Tokens**](#working-with-cancellation-tokens)
-- [**Limitations**](#limitations)
+- [**How to set a time limit**](#how-to-set-a-time-limit)
 
 
 ## Quick start
@@ -247,15 +247,14 @@ metronome.start(token=TimeoutToken(1))
 If you pass cancellation tokens both during metronome initialization and in the `start()` method, their limitations will be summed up.
 
 
-## Limitations
+## How to set a time limit
 
-You can limit the total running time of the metronome by setting the `duration` value (in seconds):
+You can specify a time limit (in seconds) for which the metronome will tick. When the specified time is over, it will simply stop. There are 2 ways to do this: when creating a metronome object or when calling the `start()` method.
+
+In the first way, the time will start counting from the moment the metronome object is created:
 
 ```python
-from time import sleep
-from metronomes import Metronome
-
-metronome = Metronome(0.2, lambda: print('go!'), duration=0.6)
+metronome = Metronome(0.2, lambda: print('go!'), duration=0.6)  
 
 metronome.start()
 sleep(1)
@@ -263,3 +262,17 @@ sleep(1)
 #> go!
 #> go!
 ```
+
+In the second way, the countdown will start by calling the `start()` method:
+
+```python
+metronome = Metronome(0.2, lambda: print('go!'))  
+
+metronome.start(duration=0.6)
+sleep(1)
+#> go!
+#> go!
+#> go!
+```
+
+Choose the right way to limit time. When using the metronome in the [context manager mode](#use-it-as-a-context-manager), only the first way is available to you, in almost all other situations - the second one is preferable.
