@@ -1,7 +1,7 @@
 from typing import Type, Callable, Union, Optional, Any
 
 try:
-    from typing import Literal  # type: ignore[attr-defined]
+    from typing import Literal
 except ImportError:  # pragma: no cover
     from typing_extensions import Literal  # type: ignore[assignment, unused-ignore]
 
