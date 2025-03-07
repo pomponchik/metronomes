@@ -42,7 +42,7 @@ class Metronome:
                 self.start()
             return self
 
-    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[True]:
+    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[False]:
         with self.lock:
             with escape(StopStoppedMetronomeError):  # type: ignore[operator]
                 self.stop()
