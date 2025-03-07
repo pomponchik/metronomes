@@ -16,7 +16,6 @@ dependencies = [
     'cantok>=0.0.32',
     'escaping>=0.0.14',
     'locklib>=0.0.17',
-    'typing_extensions ; python_version < "3.8"',
 ]
 classifiers = [
     'Operating System :: OS Independent',
