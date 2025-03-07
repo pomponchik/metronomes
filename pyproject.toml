@@ -10,7 +10,7 @@ authors = [
 ]
 description = 'Endless tick-tock generators'
 readme = 'README.md'
-requires-python = '>=3.7'
+requires-python = '>=3.8'
 dependencies = [
     'emptylog>=0.0.7',
     'cantok>=0.0.23',
@@ -24,12 +24,12 @@ classifiers = [
     'Operating System :: Microsoft :: Windows',
     'Operating System :: POSIX',
     'Operating System :: POSIX :: Linux',
-    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
     'License :: OSI Approved :: MIT License',
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Libraries',
