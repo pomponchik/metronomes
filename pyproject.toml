@@ -12,10 +12,10 @@ description = 'Endless tick-tock generators'
 readme = 'README.md'
 requires-python = '>=3.8'
 dependencies = [
-    'emptylog>=0.0.7',
-    'cantok>=0.0.23',
-    'escaping>=0.0.13',
-    'locklib>=0.0.15',
+    'emptylog>=0.0.9',
+    'cantok>=0.0.32',
+    'escaping>=0.0.14',
+    'locklib>=0.0.17',
     'typing_extensions ; python_version < "3.8"',
 ]
 classifiers = [
