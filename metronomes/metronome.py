@@ -1,9 +1,4 @@
-from typing import Type, Callable, Union, Optional, Any
-
-try:
-    from typing import Literal  # type: ignore[attr-defined]
-except ImportError:  # pragma: no cover
-    from typing_extensions import Literal  # type: ignore[assignment, unused-ignore]
+from typing import Type, Callable, Union, Optional, Literal, Any
 
 from threading import Thread, RLock
 from time import perf_counter, sleep
@@ -42,7 +37,7 @@ class Metronome:
                 self.start()
             return self
 
-    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[True]:
+    def __exit__(self, exception_type: Optional[Type[BaseException]], exception_value: Optional[BaseException], traceback: Optional[TracebackType]) -> Literal[False]:
         with self.lock:
             with escape(StopStoppedMetronomeError):  # type: ignore[operator]
                 self.stop()
