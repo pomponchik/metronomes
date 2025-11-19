@@ -1,5 +1,5 @@
 pytest==8.3.5
-coverage==7.10.7
+coverage==7.6.1
 build==1.2.2.post1
 twine==6.1.0
 mypy==1.18.2
